@@ -8,8 +8,13 @@ import pandas as pd
 
 # 2. Create the app object
 app = FastAPI()
-pickle_in = open("classifier.pkl","rb")
-classifier=pickle.load(pickle_in)
+
+# Load the model
+model_path = "models/spam-detection-model.pkl"
+# spam_classifier = joblib.load(model_path)
+
+pickle_in = open(model_path,"rb")
+spam_classifier = pickle.load(pickle_in)
 
 # 3. Index route, opens automatically on http://127.0.0.1:8000
 @app.get('/')
