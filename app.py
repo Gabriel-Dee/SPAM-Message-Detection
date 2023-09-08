@@ -19,7 +19,7 @@ spam_classifier = pickle.load(pickle_in)
 # 3. Index route, opens automatically on http://127.0.0.1:8000
 @app.get('/')
 def index():
-    return {'message': 'Hello, World'}
+    return {'message': 'Hello, Friend !'}
 
 # 4. Route with a single parameter, returns the parameter within a message
 #    Located at: http://127.0.0.1:8000/AnyNameHere
