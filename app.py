@@ -1,7 +1,7 @@
 # 1. Library imports
 import uvicorn
 from fastapi import FastAPI
-from messages import Message
+from SpamMessages import SpamMessage
 import numpy as np
 import pickle
 import pandas as pd
@@ -30,7 +30,7 @@ def get_name(name: str):
 # 3. Expose the prediction functionality, make a prediction from the passed
 #    JSON data and return the predicted Bank Note with the confidence
 @app.post('/predict')
-def predict_banknote(data:BankNote):
+def predict_spammessage(data:SpamMessage):
     data = data.dict()
     variance=data['variance']
     skewness=data['skewness']
