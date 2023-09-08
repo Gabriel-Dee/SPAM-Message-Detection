@@ -32,11 +32,11 @@ def get_name(name: str):
 @app.post('/predict')
 def predict_spammessage(data:SpamMessage):
     data = data.dict()
-    # message = data['message']
+    message = data['message']
     length = data['length']
     punct = data['punct']
 
-    prediction = spam_classifier.predict([[length, punct]])
+    prediction = spam_classifier.predict([[message, length, punct]])
     if(prediction[0]>0.5):
         prediction="Spam Message"
     else:
