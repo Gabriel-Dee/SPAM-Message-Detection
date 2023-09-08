@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from SpamMessages import SpamMessage
 import numpy as np
-import pickle
+import joblib
 import pandas as pd
 
 # 2. Create the app object
@@ -11,10 +11,10 @@ app = FastAPI()
 
 # Load the model
 model_path = "models/spam-detection-model.pkl"
-# spam_classifier = joblib.load(model_path)
+spam_classifier = joblib.load(model_path)
 
-pickle_in = open(model_path,"rb")
-spam_classifier = pickle.load(pickle_in)
+# pickle_in = open(model_path,"rb")
+# spam_classifier = pickle.load(pickle_in)
 
 # 3. Index route, opens automatically on http://127.0.0.1:8000
 @app.get('/')
@@ -28,20 +28,19 @@ def get_name(name: str):
     return {'Welcome To SPAM MESSAGE DETECTIVE': f'{name}'}
 
 # 3. Expose the prediction functionality, make a prediction from the passed
-#    JSON data and return the predicted Bank Note with the confidence
+#    JSON data and return the predicted Spam Message with the confidence
 @app.post('/predict')
 def predict_spammessage(data:SpamMessage):
     data = data.dict()
-    variance=data['variance']
-    skewness=data['skewness']
-    curtosis=data['curtosis']
-    entropy=data['entropy']
-   # print(classifier.predict([[variance,skewness,curtosis,entropy]]))
-    prediction = classifier.predict([[variance,skewness,curtosis,entropy]])
+    # message = data['message']
+    length = data['length']
+    punct = data['punct']
+
+    prediction = spam_classifier.predict([[length, punct]])
     if(prediction[0]>0.5):
-        prediction="Fake note"
+        prediction="Spam Message"
     else:
-        prediction="Its a Bank note"
+        prediction="Its a Ham Message"
     return {
         'prediction': prediction
     }
